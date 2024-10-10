@@ -12,7 +12,8 @@ def cart_summary(request):
 
 def cart_add(request):
     cart = Cart(request)
-    if request.method == "POST" and request.POST.get("action") == "post":
+    # if request.method == "POST" and request.POST.get("action") == "post":
+    if request.POST.get("action") == "post":
         try:
             product_id = int(request.POST.get("product_id"))
             product_quantity = int(request.POST.get("product_quantity"))
@@ -32,7 +33,14 @@ def cart_add(request):
             )
 
     return JsonResponse(
-        {"error": "Metodo " + request.method + " no permitido."}, status=405
+        {
+            "error": "Metodo "
+            + request.method
+            + " no permitido."
+            + "Accion:"
+            + str(request.POST.get("action"))
+        },
+        status=405,
     )
 
 
