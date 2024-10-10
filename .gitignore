@@ -1,5 +1,5 @@
 .venv
 .git
-__pychache__/
+__pycache__/
 history.txt
 docs/

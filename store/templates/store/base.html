@@ -103,6 +103,15 @@
 
                         <i class="fa fa-shopping-cart" aria-hidden="true"> </i>
 
+                        <div id="cart-qty" class="d-inline-flex">
+                            {% with cantidad=cart|length %}                             
+                                {% if cantidad > 0 %}
+                                    {{ cantidad }}
+                                {% else %}
+                                        0
+                                {% endif %}
+                            {% endwith %}
+                        </div>
 
                     </a>
 

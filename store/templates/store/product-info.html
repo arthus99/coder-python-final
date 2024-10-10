@@ -38,6 +38,7 @@
                                 <button type="button" 
                                     id="add-button" 
                                     value="{{product.id}}"
+                                    data-csrf = "{{ csrf_token }}"
                                     data-url="{% url 'cart-add' %}" 
                                     class="btn btn-secondary btn-sm">
                                     Agregar a la cesta 

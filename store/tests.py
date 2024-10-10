@@ -104,3 +104,26 @@ class ListCategoryViewTest(TestCase):
         self.assertContains(response, "Electronicos")
         self.assertContains(response, "Smartphone")
         self.assertContains(response, "Laptop")
+
+
+class ProductInfoViewTest(TestCase):
+    def setUp(self):
+        self.category = Category.objects.create(
+            name="Electronicos", slug="electronicos"
+        )
+        self.product = Product.objects.create(
+            Category=self.category,
+            title="Smartphone",
+            brand="Galaxy",
+            description="Último modelo de smartphone",
+            slug="smartphone",
+            price=299.99,
+            image="testimages/galaxy.jpg",
+        )
+
+    def test_product_info_view(self):
+        response = self.client.get(reverse("product_info", args=[self.product.slug]))
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, "store/product-info.html")
+        self.assertContains(response, "Smartphone")
+        self.assertContains(response, "Último modelo de smartphone")
