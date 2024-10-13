@@ -39,7 +39,12 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "store",
     "cart",
+    "profiles",
+    "crispy_forms",
 ]
+
+# Crispy forms
+CRISPY_TEMPLATE_PACK = "bootstrap4"
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
@@ -76,6 +81,9 @@ WSGI_APPLICATION = "ecommerce.wsgi.application"
 
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
+
+SESSION_ENGINE = "django.contrib.sessions.backends.db"
+
 
 DATABASES = {
     "default": {
