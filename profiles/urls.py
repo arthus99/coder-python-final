@@ -11,7 +11,7 @@ urlpatterns = [
     path(
         "email_verification_sent/",
         views.email_verification_sent,
-        name="email-verification-failed",
+        name="email-verification-sent",
     ),
     path(
         "email_verification_success/",
@@ -19,8 +19,8 @@ urlpatterns = [
         name="email-verification-success",
     ),
     path(
-        "email_verification/",
+        "email_verification/<str:uidb64>/<str:token>/",
         views.email_verification,
-        name="email_verification",
+        name="email-verification",
     ),
 ]
