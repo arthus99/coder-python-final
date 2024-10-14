@@ -1,5 +1,24 @@
+{% include "store/base.html" %}
+{% load static %}
+{% block content %}
+<body class="body-gray">
+    <br><br>
+    <div class="container bg-white shadow-md p-5 form-layout">
+        <div class="text-center">
+            <i class="fa fa-envelope fa-3x" aria-hidden="true" style="color:rgb(25, 0, 255);"></i>
+            <br>
 
-<h1> Un correo de verificación ha sido enviado a su correo.</h1>
-<p> por favor verifique su cuenta para poder ingresar.</p>
+            <h4> Un correo de verificación ha sido enviado a su correo.</h4>
+            <hr>
+            <p> Por favor ingrese al enlace adjunto en su correo para poder activar su cuenta.</p>
+        </div>
+        
+    </div>
+    <br>
+    <br>
+
+</body>
+
+{% endblock content%}
 
 

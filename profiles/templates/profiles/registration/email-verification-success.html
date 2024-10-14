@@ -1,1 +1,16 @@
-<h1> Gracias por verificar su cuenta.</h1>
+{% include "store/base.html" %}
+{% load static %}
+{% block content %}
+<body class="body-gray">
+    <div class="container bg-white shadow-md p-5 form-layout">
+        <div class="text-center">
+            <i class="fa fa-check fa-3x text-success" aria-hidden="true"></i>
+            <br>
+            <h4> Gracias por verificar su cuenta.</h4>
+            <hr>
+            <p>Su cuenta ha sido activada.</p>
+        </div>
+    </div>
+</body>
+
+{% endblock content%}
