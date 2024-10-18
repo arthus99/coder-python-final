@@ -1,0 +1,20 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Attach to Django",
+            "type": "debugpy",
+            "request": "attach",
+            "connect": {
+                "host": "localhost",
+                "port": 5678  // Asegúrate de que este puerto coincide
+            },
+            "pathMappings": [
+                {
+                    "localRoot": "${workspaceFolder}",  // Ruta en tu máquina local
+                    "remoteRoot": "/home/arturo/Escritorio/python/myLabs/kamari-tienda"  // Ruta en el servidor
+                }
+            ]
+        }
+    ]
+}

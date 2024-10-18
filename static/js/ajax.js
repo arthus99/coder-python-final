@@ -80,3 +80,15 @@ $(document).on("click", ".update-button", function(e) {
         }
     });
 });
+
+function timer(){
+    var message_timeout = document.getElementById("message-timer");
+    setTimeout(function()
+    {
+        message_timeout.style.display = "none";
+    }, 2500);
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    timer();  // Llama a la función una vez que el DOM está completamente cargado
+});

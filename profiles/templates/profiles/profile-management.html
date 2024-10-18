@@ -1,0 +1,43 @@
+{% extends "store/base.html" %}
+{% load crispy_forms_tags %}
+
+{% load static % }
+
+{% block content %} 
+<body class="body-gray">
+    <br><br>
+
+    <div class="container bg-white shadow-md p-5 form-layout">
+        <h4> Actualiza Usuario y/o Correo electrónico </h4>
+        <hr>
+            
+        <form method="post" autocomplete="off">
+            {% csrf_token %}
+            <div>
+                {{ user_form.username|as_crispy_field }}
+            </div>
+            <br>
+            <div>
+                {{ user_form.email|as_crispy_field }}
+            </div>
+            <br>
+            <br>
+            <button type="submit" class="btn btn-primary navbar-btn text-white">Actualizar</button>
+        </form>
+    </div>
+    <br><br>
+    <div class="container bg-white shadow-md p-5 form-layout">
+
+        <h4> Borrar Cuenta de este sitio </h4>
+
+        <p> Extreme precauciones </p>
+
+        <hr>
+
+        <a class="btn btn-primary navbar-btn text-white" type="button"  href="{% url 'delete-account' %}"> Borrar Cuenta </a>
+
+    </div>
+    <br><br>
+</body>
+
+{% endblock %}

@@ -4,7 +4,8 @@
 {% load static % }
 
 {% block content %} 
-        
+
+<body>
     <!-- Introduccion -->
   
     <section class="py-4 text-center container">
@@ -16,11 +17,14 @@
                     Consiga el regalo ideal.
                 </p>
                 <br>
-                <a href="{% url "register" %}" class="btn btn-primary my-2"> Crear cuenta</a>
+                <a href="{% url "register" %}" class="btn btn-primary my-2">
+                    <i class="fa fa-user-plus" aria-hidden="true"></i> Crear cuenta</a>
             </div>
         </div>
     </section>        
 
     {% include './main-product-section.html' %}
+
+</body>    
             
 {% endblock %}

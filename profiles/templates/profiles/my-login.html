@@ -1,0 +1,49 @@
+{%  extends "store/base.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block content %}
+
+<body class="body-gray">
+    <br><br>
+
+    <div class="container bg-white shadow-md p-5 form-layout">
+        <h3><i class="fa fa-key" aria-hidden="true"></i> Iniciar Sesión </h3>
+        <hr>
+        <br>
+    
+        <form method="post" autocomplete="off">
+            {% csrf_token %}
+            <div>
+                {{ form.username|as_crispy_field }}
+            </div>
+            <div>
+                {{ form.password|as_crispy_field }}
+            </div>
+            <br>
+            <button type="submit" class="btn btn-primary navbar-btn text-white w-100 p-2"> <i class="fa fa-key" aria-hidden="true"></i> &nbsp;Iniciar sesión</button>
+        </form>
+        <br><br>
+        {{form.non_field_errors}}
+        <div class="text-center">
+
+            <a href="{% url 'register' %}"  
+                class="text-black text-decoration-none no-underline">
+                <i class="fa fa-user-plus" aria-hidden="true"></i> 
+                &nbsp;Nuevo Usuario 
+            </a>
+            <br>
+            <a href="{% url 'reset_password' %}"  
+                class="text-black text-decoration-none no-underline"> 
+                    ¿Ha olvidado su password? 
+            </a>
+        </div>
+        
+
+    </div>    
+    <br><br>
+
+
+</body>
+
+
+{% endblock content %}

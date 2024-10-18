@@ -1,0 +1,71 @@
+
+{% extends "store/base.html" %}
+
+{% load static % }
+
+{% block content %} 
+
+    <body class="body-gray">
+        <br>
+
+        <div class="container bg-white shadow-md p-5 form-layout">
+
+            <h4> <i class="fa fa-hand-paper-o" aria-hidden="true"></i> &nbsp; Bienvenido, {{user}} </h4>
+
+            <hr>
+
+            <p> Esta es su página de configuración, desde aquí usted podrá: </p>
+
+            <li> Rastree sus Ordenes </li>
+            <li> Maneje su cuenta </li>
+
+
+        </div>
+
+        <br>
+
+
+        <div class="container bg-white shadow-md p-5 form-layout">
+            <h4> <i class="fa fa-address-book" aria-hidden="true"></i> &nbsp; Administración de Cuenta </h4>
+
+            <hr>
+            <a class="btn btn-primary navbar-btn text-white" type="button"  href="{% url 'profile-management' %}"> Editar Cuenta </a>
+        </div>
+
+        <br>
+
+        <div class="container bg-white shadow-md p-5 form-layout">
+
+            <h4> <i class="fa fa-list-alt" aria-hidden="true"></i> &nbsp; Rastree su orden </h4>
+
+            <hr>
+
+            <p> De seguimiento a sus ordenes aquí... </p>
+
+            <a class="btn btn-primary navbar-btn text-white" type="button"  href=""> Ordenes </a>
+
+        </div>
+
+
+
+        <br>
+
+
+        <div class="container bg-white shadow-md p-5 form-layout">
+
+            <h4> <i class="fa fa-chevron-circle-right" aria-hidden="true"></i> &nbsp; shipping </h4>
+
+            <hr>
+
+            <p> Enter in a shipping address </p>
+
+
+            <a class="btn btn-primary navbar-btn text-white" type="button"  href=""> shipping </a>
+
+        </div>
+
+        <br>
+
+    </body>    
+            
+{% endblock content%}

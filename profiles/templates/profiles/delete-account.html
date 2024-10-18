@@ -1,0 +1,24 @@
+
+{% extends "store/base.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block content %}
+    <body class="body-gray">
+        <br>
+        <div class="container bg-white shadow-md p-5 form-layout">
+            <h3> !! Precaución !! </h3>
+            <hr>
+            <p> Con esta acción borrará su cuenta; ¿esta usted seguro? </p>
+            <br>
+            <form method="POST" autocomplete="off">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-danger navbar-btn text-white"> &nbsp;&nbsp; Borrar&nbsp;&nbsp; </button>
+                <br> <br>
+                <a class="btn btn-primary navbar-btn text-white" type="button"  href="{% url 'profile-management' %}"> <i class="fa fa-arrow-left" aria-hidden="true"></i> &nbsp; cancelar </a>
+            </form>
+        </div>
+        <br> <br>
+    </body>
+
+{% endblock content %}
+
