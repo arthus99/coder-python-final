@@ -10,7 +10,7 @@
 
         <div class="container bg-white shadow-md p-5 form-layout">
 
-            <h4> <i class="fa fa-hand-paper-o" aria-hidden="true"></i> &nbsp; Bienvenido, {{user}} </h4>
+            <h4> <i class="fa fa-hand-paper-o" aria-hidden="true"></i> &nbsp; Bienvenido, {{user| capfirst}} </h4>
 
             <hr>
 
@@ -33,6 +33,9 @@
         </div>
 
         <br>
+        {% if user.is_staff %}
+            {% include 'profiles/staff-dashboard.html' %}
+        {% endif %}
 
         <div class="container bg-white shadow-md p-5 form-layout">
 

@@ -76,64 +76,33 @@
 
 
         <div class="collapse navbar-collapse text-center" id="navbarNavDropdown">
-            
             <ul class="navbar-nav ms-auto">
 
                 {% if user.is_authenticated  %}
-                    
+
                 <li class="nav-item">
-                    <a class="btn btn-alert navbar-btn text-white" 
+                    <a data-toggle="tooltip" 
+                        title="&nbsp;Mi Perfil"
+                        class="btn btn-alert navbar-btn text-white" 
                         type="button"  
                         href="{% url "dashboard" %}"> 
-                        <i class="fa fa-home" aria-hidden="true"></i>
-                        &nbsp;Mi Perfil 
+                        <i class="fa fa-home fa-2x" aria-hidden="true"></i>
                     </a>                    
                 </li>
-                
-                
+                &nbsp; &nbsp; &nbsp;
                 <li class="nav-item">
-                    <a class="btn btn-alert navbar-btn text-white" 
+                    <a data-toggle="tooltip" 
+                        title="&nbsp;Terminar Sesión"
+                        class="btn btn-alert navbar-btn text-white" 
                         type="button"  
                         href=" {% url "url-logout" %}"> 
-                        <i class="fa fa-sign-out" aria-hidden="true"></i> 
-                        &nbsp;Terminar Sesión 
+                        <i class="fa fa-sign-out fa-2x" aria-hidden="true"></i>  
                     </a>
                 </li>
-                {% else %}
-
-                <li class="nav-item">                    
-                    <a class="btn btn-alert navbar-btn text-white" 
-                        type="button"  
-                        href="{% url "register" %}"> 
-                            <i class="fa fa-user-plus" aria-hidden="true"></i>
-                            &nbsp;&nbsp;Registrese
-                    </a>
-                </li>
-                
-                
-                <li class="nav-item">                    
-                    <a class="btn btn-alert navbar-btn text-white" 
-                        type="button"  
-                        href=" {% url "url-login" %}"> 
-                        <i class="fa fa-key" aria-hidden="true"></i> 
-                        &nbsp;Iniciar Sesión 
-                    </a>
-                </li>
-
-                
-                {% endif %}
-
                 &nbsp; &nbsp; &nbsp;
-
-
                 <li class="nav-item">
-
                     <a type="button" role="button" href="{% url "cart-summary" %}" class="btn btn-outline-secondary"> 
-                    
-
-
                         <i class="fa fa-shopping-cart" aria-hidden="true"> </i>
-
                         <div id="cart-qty" class="d-inline-flex">
                             {% with cantidad=cart|length %}                             
                                 {% if cantidad > 0 %}
@@ -143,14 +112,33 @@
                                 {% endif %}
                             {% endwith %}
                         </div>
-
                     </a>
-
                 </li>
-
                 &nbsp; &nbsp; &nbsp;
-        
 
+                {% else %}
+
+                <li class="nav-item">                    
+                    <a data-toggle="tooltip" 
+                        title="&nbsp;&nbsp;Registrese"
+                        class="btn btn-alert navbar-btn text-white" 
+                        type="button"  
+                        href="{% url "register" %}"> 
+                            <i class="fa fa-user-plus fa-2x" aria-hidden="true"></i>
+                    </a>
+                </li>
+                <li class="nav-item">                    
+                    <a data-toggle="tooltip" 
+                        title="&nbsp;Iniciar Sesión"
+                        class="btn btn-alert navbar-btn text-white" 
+                        type="button"  
+                        href=" {% url "url-login" %}"> 
+                        <i class="fa fa-key fa-2x" aria-hidden="true"></i>  
+                    </a>
+                </li>
+   
+                {% endif %}
+                &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp;
             </ul>
 
         
@@ -158,6 +146,7 @@
 
 
     </nav>
+
 {% for message in messages %}
 
     {% if message.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}
@@ -199,7 +188,6 @@
         {% endblock %}
     
         <script src="{% static 'js/ajax.js' %}"></script>
-
 
     
 

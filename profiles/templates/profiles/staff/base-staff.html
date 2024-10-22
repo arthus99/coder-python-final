@@ -1,0 +1,24 @@
+{% extends 'store/base.html' %}
+{% load static %}
+{% block content %}
+    <body>
+        <div class="container mt-5">
+            <a href="{% url 'CategoryList' %}" class="btn btn-secondary">
+                <i class="fa fa-puzzle-piece" aria-hidden="true"></i>
+                &nbsp;Categorias
+            </a>
+            &nbsp;&nbsp;&nbsp;
+            <a href="{% url 'ProductList' %}" class="btn btn-secondary">
+                <i class="fa fa-product-hunt" aria-hidden="true"></i>
+                &nbsp;Productos
+            </a>
+    
+        </div>
+        <br><br>
+{% block staff-content %}
+                    
+                    
+{% endblock staff-content%}
+</body>
+
+{% endblock content%}

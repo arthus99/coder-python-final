@@ -81,14 +81,83 @@ $(document).on("click", ".update-button", function(e) {
     });
 });
 
-function timer(){
-    var message_timeout = document.getElementById("message-timer");
-    setTimeout(function()
-    {
-        message_timeout.style.display = "none";
-    }, 2500);
-}
+
 
 document.addEventListener('DOMContentLoaded', function() {
+    $(function () {
+        $('[data-toggle="tooltip"]').tooltip();
+    });
+    function timer(){
+        var message_timeout = document.getElementById("message-timer");
+        if (message_timeout){
+            setTimeout(function()
+            {
+                message_timeout.style.display = "none";
+            }, 2500);
+        }
+    }
     timer();  // Llama a la función una vez que el DOM está completamente cargado
+});
+
+$(document).on("click", ".save-btn", function(e) {
+    e.preventDefault();
+    const categoryUpdate = $(this).data('url');
+    const csrf = $(this).data('csrf');
+    const categoryId = $(this).val(); 
+    const category_name = $("#name" + categoryId).val();  
+    const category_slug = $("#slug" + categoryId).val();  
+    //console.log(categoryUpdate);
+    //console.log(csrf);
+    //console.log(categoryId);
+    //console.log(category_slug);
+    //console.log(category_name);
+
+    $.ajax({
+        url: categoryUpdate,
+        type: 'POST',
+        data: {
+            category_id: categoryId,
+            category_name: category_name,
+            category_slug: category_slug,
+            csrfmiddlewaretoken: csrf,
+            action: "post"
+        },
+        success: function(json) {
+            console.log(json);
+            location.reload(true);
+        },
+        error: function(xhr, errmsg, err) {
+            console.log(`Error en la solicitud: ${xhr.status} - ${xhr.statusText}`);
+        }
+    });
+});
+
+$(document).on("click", ".add-btn", function(e) {
+    e.preventDefault();
+    const categoryAdd = $(this).data('url');
+    const csrf = $(this).data('csrf'); 
+    const category_name = $("#new-name").val();  
+    const category_slug = $("#new-slug").val();  
+    console.log(categoryAdd);
+    console.log(csrf);
+    console.log(category_slug);
+    console.log(category_name);
+
+    $.ajax({
+        url: categoryAdd,
+        type: 'POST',
+        data: {
+            category_name: category_name,
+            category_slug: category_slug,
+            csrfmiddlewaretoken: csrf,
+            action: "post"
+        },
+        success: function(json) {
+            console.log(json);
+            location.reload(true);
+        },
+        error: function(xhr, errmsg, err) {
+            console.log(`Error en la solicitud: ${xhr.status} - ${xhr.statusText}`);
+        }
+    });
 });

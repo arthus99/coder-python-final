@@ -1,0 +1,27 @@
+{% include 'profiles/staff/base-staff.html' %}
+{% load static %}
+{% block staff-content %}
+<div class="container table-responsive-sm">
+    <form action="{% url 'CategoryUpdate' category.id %}" method="post">
+        {% csrf_token %}
+
+        {% for field in form %}
+            <div>
+                <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                {{ field }}  <!-- Esto renderiza el campo -->
+                {% if field.help_text %}
+                    <small>{{ field.help_text }}</small>  <!-- Muestra el texto de ayuda si lo hay -->
+                {% endif %}
+                {% for error in field.errors %}
+                    <div class="error">{{ error }}</div>  <!-- Muestra los errores del campo -->
+                {% endfor %}
+            </div>
+        {% endfor %}
+    
+        <button type="submit">Actualizar</button>
+    
+    </form>
+        
+</div>
+{% endblock staff-content%}
+

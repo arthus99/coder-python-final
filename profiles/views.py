@@ -1,3 +1,5 @@
+from typing import Any
+from django.db.models.query import QuerySet
 from django.shortcuts import render, redirect
 from .forms import CreateUserForm, LoginForm, UpdateUserForm, CustomSetPasswordForm
 
@@ -12,9 +14,19 @@ from django.contrib.auth.models import User, auth
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.views import PasswordResetConfirmView
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 from cart.cart import Cart
 from django.contrib import messages
+
+from django.views.generic import ListView
+from django.views.generic.detail import DetailView
+from django.views.generic.edit import DeleteView, UpdateView, CreateView
+from store.models import Category, Product
+
+from django.urls import reverse_lazy
+from django.http import JsonResponse
+from django.db import IntegrityError
 
 # from django.contrib.auth import views as auth_views
 
@@ -142,3 +154,151 @@ def delete_account(request):
 class MyPasswordResetConfirmView(PasswordResetConfirmView):
     form_class = CustomSetPasswordForm
     template_name = "profiles/password/password-reset-form.html"
+
+
+class CategoryList(LoginRequiredMixin, ListView):
+    model = Category
+    template_name = "profiles/staff/category-list.html"
+    context_object_name = "categories"
+
+
+@login_required(login_url="url-login")
+def CategoryUpdate(request):
+    if request.method == "POST" and request.POST.get("action") == "post":
+        try:
+            category_id = request.POST.get("category_id")
+            name = request.POST.get("category_name")
+            slug = request.POST.get("category_slug")
+
+            # Obtén la categoría específica
+            category = Category.objects.get(id=category_id)
+            category.name = name
+            category.slug = slug
+            category.save()
+
+            messages.success(request, "Categoría Actualizada.")
+            response = JsonResponse({"id": category.id, "name": name, "slug": slug})
+            return response
+        except Category.DoesNotExist:
+            return JsonResponse({"error": "Categoría no encontrada"}, status=404)
+        except (ValueError, TypeError):
+            return JsonResponse(
+                {"error": "No se ha podido actualizar la categoría"}, status=400
+            )
+    return JsonResponse(
+        {
+            "error": "Método "
+            + request.method
+            + " no permitido."
+            + " Accion: "
+            + str(request.POST.get("action"))
+        },
+        status=405,
+    )
+
+
+@login_required(login_url="url-login")
+def CategoryAdd(request):
+    if request.method == "POST" and request.POST.get("action") == "post":
+        try:
+            name = request.POST.get("category_name")
+            slug = request.POST.get("category_slug")
+
+            # Crear la categoría y almacenarla en una variable
+            category = Category.objects.create(name=name, slug=slug)
+
+            messages.success(request, "Categoría creada.")
+            response = JsonResponse(
+                {"id": category.id, "name": category.name, "slug": category.slug}
+            )
+            return response
+        except IntegrityError:
+            return JsonResponse({"error": "La categoría ya existe."}, status=400)
+        except (ValueError, TypeError):
+            return JsonResponse(
+                {"error": "No se ha podido insertar la categoría"}, status=400
+            )
+
+    return JsonResponse(
+        {
+            "error": "Método "
+            + request.method
+            + " no permitido."
+            + " Acción: "
+            + str(request.POST.get("action"))
+        },
+        status=405,
+    )
+
+
+class CategoryDelete(LoginRequiredMixin, DeleteView):
+
+    model = Category
+    template_name = "profiles/staff/category-delete.html"
+    context_object_name = "category"
+    success_url = reverse_lazy("CategoryList")
+
+    def form_valid(self, form):
+        response = super().form_valid(form)
+        messages.warning(self.request, "Categoría Borrada.")
+        return response
+
+
+class ProductList(LoginRequiredMixin, ListView):
+    model = Product
+    template_name = "profiles/staff/product-list.html"
+    context_object_name = "products"
+
+
+class ProductAdd(LoginRequiredMixin, CreateView):
+    model = Product
+    template_name = "profiles/staff/product_add.html"
+    fields = "__all__"
+    success_url = reverse_lazy("ProductList")  # Use reverse_lazy for named URL patterns
+
+    def form_valid(self, form):
+        response = super().form_valid(form)
+        messages.success(self.request, "Producto agregado exitosamente.")
+        return response
+
+
+class ProductDetail(LoginRequiredMixin, DetailView):
+
+    model = Product
+    template_name = "profiles/staff/product_detail.html"
+    context_object_name = "product"
+
+
+class ProductUpdate(LoginRequiredMixin, UpdateView):
+
+    model = Product
+    template_name = "profiles/staff/product_update.html"
+    fields = "__all__"
+    success_url = reverse_lazy("ProductList")
+    context_object_name = "product"
+
+    def form_valid(self, form):
+        response = super().form_valid(form)
+        messages.success(self.request, "Producto actualizado.")
+        return response
+
+
+class ProductDelete(LoginRequiredMixin, DeleteView):
+
+    model = Product
+    template_name = "profiles/staff/product_delete.html"
+    success_url = reverse_lazy("ProductList")
+    context_object_name = "product"
+
+    def form_valid(self, form):
+        response = super().form_valid(form)
+        messages.success(self.request, "Producto eliminado.")
+        return response
+
+
+def contenido_iframe(request):
+    return render(request, "profiles/staff/contenido_iframe.html")
+
+
+def otra_plantilla(request):
+    return render(request, "profiles/staff/otra_plantilla.html")

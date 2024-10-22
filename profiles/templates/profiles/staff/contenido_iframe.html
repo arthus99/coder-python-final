@@ -1,0 +1,183 @@
+{% extends 'profiles/staff/base-staff.html' %}
+{% load static %}
+
+{% block staff-content %}
+<div class="container table-responsive-sm">
+    <table class="table table-hover" id="cTable">
+    <thead>
+        <tr>
+            <th scope="col">
+                Categoría &nbsp;&nbsp;&nbsp;
+                <button id="addrow-btn" class="btn btn-link">
+                    <i class="fa fa-plus" aria-hidden="true">Agregar</i>    
+                </button>
+            </th>
+            <th scope="col">Liga</th>
+            <th scope="col">Acción</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+                <span class="item-text" id="itemText2">zapatos</span>
+                <input type="text" value="zapatos" class="name-input" data-slug-input="slug2" style="display: none;">
+            </td>
+            <td>
+                <span class="item-text" id="slugText2">zapatos</span>
+                <input type="text" value="zapatos" class="slug-input" style="display: none;">
+            </td>
+            <td>
+                <a href="#" class="edit-btn" aria-label="Editar">
+                    <i class="fa fa-pencil" style="font-size:25px;color:hsl(244, 90%, 54%)"></i>
+                </a>
+                <button type="button" class="btn btn-link save-btn" style="display: none;" aria-label="Salvar">
+                    <i class="fa fa-floppy-o" style="font-size:25px;color:hsl(244, 90%, 54%)"></i>
+                </button>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <a href="#" class="delete-btn" aria-label="Borrar">
+                    <i class="fa fa-trash" style="font-size:25px;color:hsl(244, 90%, 54%)"></i>
+                </a>
+                <a href="#" class="cancel-btn" style="display: none;" aria-label="Cancelar">
+                    <i class="fa fa-times" style="font-size:25px;color:hsl(244, 90%, 54%)"></i>
+                </a>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span class="item-text" id="itemText3">Camisas</span>
+                <input type="text" value="Camisas" class="name-input" data-slug-input="slug3" style="display: none;">
+            </td>
+            <td>
+                <span class="item-text" id="slugText3">Camisas</span>
+                <input type="text" value="Camisas" class="slug-input" style="display: none;">
+            </td>
+            <td>
+                <a href="#" class="edit-btn" aria-label="Editar">
+                    <i class="fa fa-pencil" style="font-size:25px;color:hsl(244, 90%, 54%)"></i>
+                </a>
+                <button type="button" class="btn btn-link save-btn" style="display: none;" aria-label="Salvar">
+                    <i class="fa fa-floppy-o" style="font-size:25px;color:hsl(244, 90%, 54%)"></i>
+                </button>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <a href="#" class="delete-btn" aria-label="Borrar">
+                    <i class="fa fa-trash" style="font-size:25px;color:hsl(244, 90%, 54%)"></i>
+                </a>
+                <a href="#" class="cancel-btn" style="display: none;" aria-label="Cancelar">
+                    <i class="fa fa-times" style="font-size:25px;color:hsl(244, 90%, 54%)"></i>
+                </a>
+            </td>
+        </tr>
+    </tbody>
+</table>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const tableBody = document.querySelector('#cTable tbody');
+
+        // Función para sincronizar el input de nombre y slug
+        function syncNameAndSlug() {
+            const nameInputs = tableBody.querySelectorAll('.name-input');
+            const slugInputs = tableBody.querySelectorAll('.slug-input');
+            nameInputs.forEach((input, index) => {
+                input.addEventListener('input', function() {
+                    slugInputs[index].value = input.value;
+                });
+            });
+        }
+
+        // Delegación de eventos para manejar los clics en el cuerpo de la tabla
+        tableBody.addEventListener('click', function(e) {
+            const target = e.target;
+
+            // Editar
+            if (target.closest('.edit-btn')) {
+                const row = target.closest('tr');
+                const nameInput = row.querySelector('.name-input');
+                const slugInput = row.querySelector('.slug-input');
+                const saveBtn = row.querySelector('.save-btn');
+                const cancelBtn = row.querySelector('.cancel-btn');
+                const deleteBtn = row.querySelector('.delete-btn')
+                const itemTexts = row.querySelectorAll('.item-text');
+
+                itemTexts.forEach(text => text.style.display = 'none');
+                target.style.display = 'none';
+                deleteBtn.style.display = 'none';
+                saveBtn.style.display = 'inline';
+                nameInput.style.display = 'inline';
+                slugInput.style.display = 'inline';
+                cancelBtn.style.display = 'inline';
+            }
+
+            // Cancelar
+            if (target.closest('.cancel-btn')) {
+                const row = target.closest('tr');
+                const itemTexts = row.querySelectorAll('.item-text');
+                const nameInput = row.querySelector('.name-input');
+                const slugInput = row.querySelector('.slug-input');
+                const saveBtn = row.querySelector('.save-btn');
+                const editBtn = row.querySelector('.edit-btn');
+                const deleteBtn = row.querySelector('.delete-btn');
+
+                itemTexts.forEach(text => text.style.display = 'inline');
+                editBtn.style.display = 'inline';
+                deleteBtn.style.display = 'inline';
+                target.style.display = 'none';
+                saveBtn.style.display = 'none';
+                nameInput.style.display = 'none';
+                slugInput.style.display = 'none';
+            }
+
+            // Salvar
+            if (target.closest('.save-btn')) {
+                const row = target.closest('tr');
+                const itemTexts = row.querySelectorAll('.item-text');
+                const nameInput = row.querySelector('.name-input');
+                const slugInput = row.querySelector('.slug-input');
+                const editBtn = row.querySelector('.edit-btn');
+
+                itemTexts[0].innerText = nameInput.value;
+                itemTexts[1].innerText = slugInput.value;
+
+                nameInput.style.display = 'none';
+                slugInput.style.display = 'none';
+                target.style.display = 'none';
+                editBtn.style.display = 'inline';
+                itemTexts.forEach(text => text.style.display = 'inline');
+            }
+        });
+
+        // Agregar nueva fila
+        document.getElementById('addrow-btn').addEventListener('click', function() {
+            const newRow = tableBody.insertRow(0);
+            newRow.innerHTML = `
+                <td>
+                    <span class="item-text">Nueva Categoría</span>
+                    <input type="text" value="Nueva Categoría" class="name-input" style="display: none;">
+                </td>
+                <td>
+                    <span class="item-text">Nueva Liga</span>
+                    <input type="text" value="Nueva Liga" class="slug-input" style="display: none;">
+                </td>
+                <td>
+                    <a href="#" class="edit-btn" aria-label="Editar">
+                        <i class="fa fa-pencil" style="font-size:25px;color:hsl(244, 90%, 54%)"></i>
+                    </a>
+                    <button type="button" class="btn btn-link save-btn" style="display: none;" aria-label="Salvar">
+                        <i class="fa fa-floppy-o" style="font-size:25px;color:hsl(244, 90%, 54%)"></i>
+                    </button>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <a href="#" class="delete-btn" aria-label="Borrar">
+                        <i class="fa fa-trash" style="font-size:25px;color:hsl(244, 90%, 54%)"></i>
+                    </a>
+                    <a href="#" class="cancel-btn" style="display: none;" aria-label="Cancelar">
+                        <i class="fa fa-times" style="font-size:25px;color:hsl(244, 90%, 54%)"></i>
+                    </a>
+                </td>
+            `;
+            syncNameAndSlug(); // Sincronizar inputs en la nueva fila
+        });
+    });
+</script>
+
+{% endblock staff-content%}

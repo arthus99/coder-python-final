@@ -1,0 +1,203 @@
+{% extends 'profiles/staff/base-staff.html' %}
+{% load static %}
+
+{% block staff-content %}
+<div class="container table-responsive-sm">
+    <table class="table table-hover" id="categotyTable">
+        <thead>
+            <tr>
+                <th scope="col">
+                    Categoría &nbsp;&nbsp;&nbsp;
+                    <button id="addrow-btn" class="btn btn-link">
+                        <i class="fa fa-plus" aria-hidden="true">Agregar</i>    
+                    </button>
+                </th>
+                <th scope="col">Liga</th>
+                <th scope="col">Acción</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for category in categories  %}
+            <tr>
+                <td>
+                    <span 
+                        class="item-text" 
+                        id="itemText{{ category.id }}">
+                        {{category}}
+                    </span>
+                    <input type="text" 
+                        value="{{category}}" 
+                        id="name{{category.id}}"
+                        class="name-input" 
+                        data-slug-input="slug{{category.id}}"
+                        style="display: none;">
+                </td>
+                <td>
+                    <span 
+                        class="item-text" 
+                        id="slugText{{category.id}}">
+                        {{category.slug}}
+                    </span>
+                    <input type="text" 
+                        value="{{category.slug}}" 
+                        id="slug{{category.id}}"
+                        class="slug-input"
+                        style="display: none;">
+                </td>
+                <td>
+                    <a href="#"
+                        class="edit-btn"
+                        data-toggle="tooltip" 
+                        title="Editar">
+                        <i class="fa fa-pencil" 
+                            aria-hidden="true"
+                            style="font-size:25px;color:hsl(244, 90%, 54%)">
+                        </i>
+                    </a>
+                    <button type="button"
+                        class="btn btn-link save-btn "
+                        style="display: none;"
+                        data-toggle="tooltip" 
+                        title="Salvar" 
+                        value="{{category.id}}"
+                        data-url="{% url "CategoryUpdate" %}"
+                        data-csrf = "{{ csrf_token }}">
+                        <i class="fa fa-floppy-o" 
+                            aria-hidden="true"
+                            style="font-size:25px;color:hsl(244, 90%, 54%)">
+                        </i>
+                    </button>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <a href="{% url 'CategoryDelete' category.id %}"
+                        class="delete-btn"
+                        data-toggle="tooltip" title="Borrar" >
+                        <i class="fa fa-trash" 
+                            aria-hidden="true"
+                            style="font-size:25px;color:hsl(244, 90%, 54%)">
+                        </i>
+                    </a>
+                    <a href="#"
+                        style="display: none;"
+                        class="cancel-btn"
+                        data-toggle="tooltip" 
+                        title="Cancelar">
+                        <i class="fa fa-times" 
+                            aria-hidden="true"
+                            style="font-size:25px;color:hsl(244, 90%, 54%)">
+                        </i>
+                    </a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const nameInputs = document.querySelectorAll('.name-input');
+        const slugInputs = document.querySelectorAll('.slug-input');
+        const editBtns = document.querySelectorAll('.edit-btn');
+        const saveBtns = document.querySelectorAll('.save-btn');
+        const cancelBtns = document.querySelectorAll('.cancel-btn')
+        const deleteBtns = document.querySelectorAll('.delete-btn')
+        const itemTexts = document.querySelectorAll('.item-text');
+
+        // Sincronizar los inputs de nombre y slug
+        nameInputs.forEach((input, index) => {
+            input.addEventListener('input', function() {
+                const slugId = input.getAttribute('data-slug-input');
+                document.getElementById(slugId).value = input.value;
+            });
+        });
+
+        // Evento para el botón Editar
+        editBtns.forEach((btn, index) => {
+            btn.addEventListener('click', function(e) {
+                e.preventDefault(); // Evitar el comportamiento por defecto del enlace
+                itemTexts[index * 2].style.display = 'none'; // Ocultar el primer texto
+                itemTexts[index * 2 + 1].style.display = 'none'; // Ocultar el segundo texto
+                btn.style.display = 'none'; // Ocultar el botón editar
+                deleteBtns[index].style.display = 'none'; // Ocultar el botón borrar
+                saveBtns[index].style.display = 'inline'; // Mostrar el botón salvar
+                nameInputs[index].style.display = 'inline'; // Mostrar el input de nombre
+                slugInputs[index].style.display = 'inline'; // Mostrar el input de slug
+                cancelBtns[index].style.display = 'inline'; //Muestra el boton cancelar
+            });
+        });
+
+        // Evento para el botón Cancelar
+        cancelBtns.forEach((btn, index) => {
+            btn.addEventListener('click', function(e) {
+                e.preventDefault(); // Evitar el comportamiento por defecto del enlace
+                itemTexts[index * 2].style.display = 'inline'; // Muestra el primer texto
+                itemTexts[index * 2 + 1].style.display = 'inline'; // Muestra el segundo texto
+                editBtns[index].style.display = 'inline'; // Muestra el botón editar
+                deleteBtns[index].style.display = 'inline'; //Muestra el botón borrar
+                btn.style.display = 'none'; // Ocultar el botón cancelar
+                saveBtns[index].style.display = 'none'; // Oculta el botón salvar
+                nameInputs[index].style.display = 'none';   //Oculta el input name
+                slugInputs[index].style.display = 'none';   //Oculta el input slug
+
+            });
+        });
+
+        // Evento para el botón Salvar
+        saveBtns.forEach((btn, index) => {
+            btn.addEventListener('click', function(e) {
+                e.preventDefault(); // Evitar el comportamiento por defecto del enlace
+                // Actualizar el texto con el valor de los inputs
+                itemTexts[index * 2].innerText = nameInputs[index].value;
+                itemTexts[index * 2 + 1].innerText = slugInputs[index].value;
+
+                // Ocultar los inputs y el botón Salvar
+                nameInputs[index].style.display = 'none';
+                slugInputs[index].style.display = 'none';
+                btn.style.display = 'none'; // Ocultar el botón salvar
+                editBtns[index].style.display = 'inline'; // Mostrar el botón editar
+                // Mostrar los textos actualizados
+                itemTexts[index * 2].style.display = 'inline'; 
+                itemTexts[index * 2 + 1].style.display = 'inline';
+            });
+        });
+    });
+
+    document.getElementById('addrow-btn').addEventListener('click', function() {
+        const table = document.getElementById('categotyTable'); 
+        const newRow = table.insertRow(1); 
+
+        // Crea celdas y agrega contenido
+        const cell1 = newRow.insertCell(0);
+        cell1.innerHTML = `
+            <input type="text" value="" id="name1" class="name-input" data-slug-input="slug1" style="display: none;">
+        `;
+
+        const cell2 = newRow.insertCell(1);
+        cell2.innerHTML = `
+            <span class="item-text" id="slugText1">zapatos</span>
+            <input type="text" value="zapatos" id="slug1" class="slug-input" style="display: none;">
+        `;
+
+        const cell3 = newRow.insertCell(2);
+        cell3.innerHTML = `
+            <a href="#" class="edit-btn" data-toggle="tooltip" aria-label="Editar" data-bs-original-title="Editar">
+                <i class="fa fa-pencil" aria-hidden="true" style="font-size:25px;color:hsl(244, 90%, 54%)"></i>
+            </a>
+            <button type="button" class="save-btn" style="display: none;" data-toggle="tooltip" value="1" data-url="/profiles/category_update/" data-csrf="B0HcRE31KJFXMC7keBsEeVmGoAmBzNE94mGYfqgtzqGU29oTm9gkfmuYtuenGiO3" aria-label="Salvar" data-bs-original-title="Salvar">
+                <i class="fa fa-floppy-o" aria-hidden="true" style="font-size:25px;color:hsl(244, 90%, 54%)"></i>
+            </button>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <a href="/profiles/category_delete/1" class="delete-btn" data-toggle="tooltip" aria-label="Borrar" data-bs-original-title="Borrar">
+                <i class="fa fa-trash" aria-hidden="true" style="font-size:25px;color:hsl(244, 90%, 54%)"></i>
+            </a>
+            <a href="#" style="display: none;" class="cancel-btn" data-toggle="tooltip" aria-label="Cancelar" data-bs-original-title="Cancelar">
+                <i class="fa fa-times" aria-hidden="true" style="font-size:25px;color:hsl(244, 90%, 54%)"></i>
+            </a>
+        `;
+    });
+
+
+</script>
+    
+
+{% endblock staff-content%}
