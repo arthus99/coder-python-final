@@ -248,13 +248,19 @@ class ProductList(LoginRequiredMixin, ListView):
     model = Product
     template_name = "profiles/staff/product-list.html"
     context_object_name = "products"
+    queryset = Product.objects.select_related("Category").all()
 
 
 class ProductAdd(LoginRequiredMixin, CreateView):
     model = Product
-    template_name = "profiles/staff/product_add.html"
+    template_name = "profiles/staff/product-add.html"
     fields = "__all__"
-    success_url = reverse_lazy("ProductList")  # Use reverse_lazy for named URL patterns
+    success_url = reverse_lazy("ProductList")
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["categories"] = Category.objects.all()  # Obtiene todas las categorías
+        return context
 
     def form_valid(self, form):
         response = super().form_valid(form)
@@ -272,7 +278,7 @@ class ProductDetail(LoginRequiredMixin, DetailView):
 class ProductUpdate(LoginRequiredMixin, UpdateView):
 
     model = Product
-    template_name = "profiles/staff/product_update.html"
+    template_name = "profiles/staff/product-update.html"
     fields = "__all__"
     success_url = reverse_lazy("ProductList")
     context_object_name = "product"
@@ -286,7 +292,7 @@ class ProductUpdate(LoginRequiredMixin, UpdateView):
 class ProductDelete(LoginRequiredMixin, DeleteView):
 
     model = Product
-    template_name = "profiles/staff/product_delete.html"
+    template_name = "profiles/staff/product-delete.html"
     success_url = reverse_lazy("ProductList")
     context_object_name = "product"
 

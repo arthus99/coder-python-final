@@ -2,27 +2,19 @@
 {% load static %}
 
 {% block staff-content %}
-<div class="container table-responsive-sm">
-    <ul>
-    
-        {% for product in products %}
-          <li>
-            <a href="{% url 'ProductDetail' product.id %}">
-              {{ product }}
-            </a>
-          </li>
-          <div style="display: flex; column-gap: 5px;">
-            <button>
-              <a href="{% url 'ProductDelete' product.id %}">Eliminar</a>
-            </button>
-            <button>
-              <a href="{% url 'ProductUpdate' product.id %}">Editar</a>
-            </button>
-          </div>
-        {% endfor %}
-          
-      </ul>
 
+<div class="container table-responsive-sm">
+    <div class="d-flex align-items-center mb-3">
+        <h4>Productos</h4>
+        &nbsp;&nbsp;&nbsp;
+        <a href="{% url 'ProductAdd' %}"
+                        data-toggle="tooltip" title="Agregar Producto" >
+                        <i class="fa fa-plus" 
+                            aria-hidden="true">
+                        </i>Agregar
+        </a>
+    </div>
+    <br><br>
       <table class="table">
         <thead>
             <tr>
@@ -38,10 +30,10 @@
         <tbody>
             {% for product in products %}
             <tr>
-                <td><a href="{% url 'product_info' product.slug %}">{{ product.title }}</a></td>
+                <td><a href="{% url 'ProductDetail' product.id %}">{{ product.title }}</a></td>
                 <td>{{ product.brand }}</td>
                 <td>{{ product.description|truncatewords:10 }}</td>
-                <td>{{ product.category }}</td> <!-- Muestra la categoría -->
+                <td>{{ product.Category }}</td> <!-- Muestra la categoría -->
                 <td>${{ product.price }}</td>
                 <td>
                     {% if product.image %}

@@ -2,7 +2,7 @@
 {% load static %}
 {% block staff-content %}
 <div class="container table-responsive-sm">
-    <form action="{% url 'CategoryUpdate' category.id %}" method="post">
+    <form action="{% url 'ProductUpdate' product.id %}" method="post">
         {% csrf_token %}
 
         {% for field in form %}
@@ -18,7 +18,8 @@
             </div>
         {% endfor %}
     
-        <button type="submit">Actualizar</button>
+        <button type="submit" class="btn btn-primary">Actualizar</button>
+        <a href="{% url 'ProductList' %}" class="btn btn-primary">Cancelar</a>
     
     </form>
         

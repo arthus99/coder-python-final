@@ -20,7 +20,12 @@ $(document).on("click", "#add-button", function(e) {
             document.getElementById("cart-qty").textContent = json.qty;
         },
         error: function(xhr, errmsg, err) {
-            console.log(`Error en la solicitud: ${xhr.status} - ${xhr.statusText}`);
+            if (xhr.status === 403) {  // Verifica el estado 403 (Forbidden)
+                alert("Debes estar registrado para agregar productos al carrito.");
+                window.location.href = '/profiles/login/';
+            } else {
+                console.log(`Error en la solicitud: ${xhr.status} - ${xhr.statusText}`);
+            }
         }
     });
 });
@@ -161,3 +166,16 @@ $(document).on("click", ".add-btn", function(e) {
         }
     });
 });
+
+// Función para generar slugs
+function slugify(text) {
+    return text
+        .toString()
+        .toLowerCase()
+        .trim()
+        .replace(/\s+/g, '-')             // Reemplaza espacios por guiones
+        .replace(/[^\w\-]+/g, '')         // Elimina caracteres no alfanuméricos
+        .replace(/\-\-+/g, '-')           // Reemplaza múltiples guiones por uno solo
+        .replace(/^-+/, '')               // Elimina guiones al inicio
+        .replace(/-+$/, '');              // Elimina guiones al final
+}

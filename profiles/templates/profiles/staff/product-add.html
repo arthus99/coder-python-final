@@ -1,0 +1,81 @@
+{% include 'profiles/staff/base-staff.html' %}
+{% load static %}
+{% block staff-content %}
+<div class="container">
+    <h1>Agregar Producto</h1>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        
+        <div class="form-group">
+            <label for="{{ form.Category.id_for_label }}">{{ form.Category.label }}</label>
+            {{ form.Category }}
+            {% if form.Category.errors %}
+                <div class="text-danger">{{ form.Category.errors }}</div>
+            {% endif %}
+        </div>
+        <br>
+        <div class="form-group">
+            <label for="{{ form.title.id_for_label }}">{{ form.title.label }}</label>
+            {{ form.title }}
+            {% if form.title.errors %}
+                <div class="text-danger">{{ form.title.errors }}</div>
+            {% endif %}
+        </div>
+        <br>
+        <div class="form-group">
+            <label for="{{ form.brand.id_for_label }}">{{ form.brand.label }}</label>
+            {{ form.brand }}
+            {% if form.brand.errors %}
+                <div class="text-danger">{{ form.brand.errors }}</div>
+            {% endif %}
+        </div>
+        <br>
+        <div class="form-group">
+            <label for="{{ form.description.id_for_label }}">{{ form.description.label }}</label>
+            {{ form.description }}
+            {% if form.description.errors %}
+                <div class="text-danger">{{ form.description.errors }}</div>
+            {% endif %}
+        </div>
+        <br>
+        <div class="form-group">
+            <label for="{{ form.slug.id_for_label }}">{{ form.slug.label }}</label>
+            {{ form.slug }}
+            {% if form.slug.errors %}
+                <div class="text-danger">{{ form.slug.errors }}</div>
+            {% endif %}
+        </div>
+        <br>
+        <div class="form-group">
+            <label for="{{ form.price.id_for_label }}">{{ form.price.label }}</label>
+            {{ form.price }}
+            {% if form.price.errors %}
+                <div class="text-danger">{{ form.price.errors }}</div>
+            {% endif %}
+        </div>
+        <br>
+        <div class="form-group">
+            <label for="{{ form.image.id_for_label }}">{{ form.image.label }}</label>
+            {{ form.image }}
+            {% if form.image.errors %}
+                <div class="text-danger">{{ form.image.errors }}</div>
+            {% endif %}
+        </div>
+        <br>
+        <button type="submit" class="btn btn-primary">Agregar</button>
+        <a href="{% url 'ProductList' %}" class="btn btn-primary">Cancelar</a>
+    </form>
+    
+    
+</div>
+
+<script>
+$(document).ready(function() {
+    $('#id_title').on('input', function() {
+        const slug = slugify($(this).val());   // Usar la función slugify
+        $('#id_slug').val(slug);    // Asignar el slug al campo
+    });
+});
+
+</script>
+{% endblock staff-content%}

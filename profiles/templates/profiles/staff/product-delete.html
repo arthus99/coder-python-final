@@ -1,0 +1,38 @@
+{% include "store/base.html" %}
+{% load static %}
+{% block content %}
+<body class="body-gray">
+    <br><br>
+    <div class="container bg-white shadow-md p-5 form-layout">
+        <div class="text-center">
+            <i class="fa fa-exclamation-triangle fa-3x" aria-hidden="true" style="color:rgb(255, 0, 0);"></i>
+            <br>
+
+            <h4> Eliminando Producto.</h4>
+            <hr>
+            <form action="{% url 'ProductDelete' product.id %}" method="post">{% csrf_token %}
+
+                <p> ¿Estas usted seguro de eliminar el producto?</p>
+                <br>
+                <p>Producto: {{ product.title }}</p><br>
+                <p>Precio: {{ product.price }}</p><br>
+                <span>
+                     {% if product.image %}
+                    <img class="img-fluid mx-auto d-block" src="{{ product.image.url }}" alt="{{ product.title }}" style="width: 100px;">
+                    {% else %}
+                        No hay imagen
+                    {% endif %}
+                </span><br>
+                <button type="submit" class="btn btn-primary navbar-btn">Confirmar</button>
+                <button class="btn btn-primary navbar-btn"><a class="text-white text-decoration-none"   href="{% url 'ProductList' %}">Cancelar</a></button>
+            
+              </form>
+        </div>
+        
+    </div>
+    <br>
+    <br>
+
+</body>
+
+{% endblock content%}
