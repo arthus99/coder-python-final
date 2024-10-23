@@ -1,0 +1,33 @@
+{% extends './base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container table-responsive-sm" >
+    <div class="row g-3">
+        <div class="col-md-5 col-lg-5 order-md-first bg-light">
+            <img class="img-fluid mx-auto d-block" alt="Responsive image" src="/media/images/me.jpg">
+        </div>
+        <br>
+        <div class="col-md-7 col-lg-7 ps-md-3 ps-lg-5">
+            <h1 class="mb-0 h4">   </h1>
+            <span class="h4 fw-bold"> Arturo Sánchez Cervantes </span>
+            <hr>
+            <br>
+            <p> Desarrollador </p>
+            <div class="border">
+                <div class="col border-bottom">
+                    <div class="row p-3">
+                        <div class="col-6"> Mexicano </div>
+                    </div>
+                    <div class="col-6 text-justify">
+                        <strong>Apacionado de la tecnología, disfruta de los lenguajes de programación y proyectos de IT. </strong></div>
+                </div>
+            </div>
+            <br>
+            <input class="btn btn-secondary btn-sm"" type="button"
+        value="Back" onclick="history.back()">
+        </div>
+    </div>
+</div>
+<br>
+{% endblock %}

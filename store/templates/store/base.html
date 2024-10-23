@@ -77,6 +77,15 @@
 
         <div class="collapse navbar-collapse text-center" id="navbarNavDropdown">
             <ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                    <a data-toggle="tooltip" 
+                        title="&nbsp;about developer"
+                        class="btn btn-alert navbar-btn text-white" 
+                        type="button"  
+                        href="{% url "about" %}"> 
+                        <i class="fa fa-blind fa-2x" aria-hidden="true"></i>
+                    </a>                    
+                </li>
 
                 {% if user.is_authenticated  %}
 

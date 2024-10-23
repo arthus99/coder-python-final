@@ -204,28 +204,38 @@ def CategoryAdd(request):
             name = request.POST.get("category_name")
             slug = request.POST.get("category_slug")
 
-            # Crear la categoría y almacenarla en una variable
+            # Validar los inputs
+            if not name or not slug:
+                messages.warning(request, "El nombre y el slug son requeridos.")
+                return JsonResponse(
+                    {"error": "El nombre y el slug son requeridos."}, status=400
+                )
+
+            # Revisar si el slug es único
+            if Category.objects.filter(slug=slug).exists():
+                messages.warning(request, "El slug de la categoría ya existe.")
+                return JsonResponse({"error": "La categoría ya existe."}, status=400)
+
+            # Crear la categoría
             category = Category.objects.create(name=name, slug=slug)
 
             messages.success(request, "Categoría creada.")
-            response = JsonResponse(
+            return JsonResponse(
                 {"id": category.id, "name": category.name, "slug": category.slug}
             )
-            return response
+
         except IntegrityError:
-            return JsonResponse({"error": "La categoría ya existe."}, status=400)
+            return JsonResponse(
+                {"error": "Error de integridad en la base de datos."}, status=400
+            )
         except (ValueError, TypeError):
             return JsonResponse(
-                {"error": "No se ha podido insertar la categoría"}, status=400
+                {"error": "No se ha podido insertar la categoría."}, status=400
             )
 
     return JsonResponse(
         {
-            "error": "Método "
-            + request.method
-            + " no permitido."
-            + " Acción: "
-            + str(request.POST.get("action"))
+            "error": f"Método {request.method} no permitido. Acción: {request.POST.get('action')}"
         },
         status=405,
     )

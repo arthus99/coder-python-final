@@ -5,6 +5,10 @@ from .models import Category, Product
 # Create your views here.
 
 
+def about(request):
+    return render(request, "store/about.html")
+
+
 def store(request):
     all_products = Product.objects.all()
     context = {"products": all_products}

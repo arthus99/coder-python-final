@@ -139,14 +139,20 @@ $(document).on("click", ".save-btn", function(e) {
 
 $(document).on("click", ".add-btn", function(e) {
     e.preventDefault();
+    
     const categoryAdd = $(this).data('url');
     const csrf = $(this).data('csrf'); 
     const category_name = $("#new-name").val();  
     const category_slug = $("#new-slug").val();  
-    console.log(categoryAdd);
-    console.log(csrf);
-    console.log(category_slug);
-    console.log(category_name);
+    
+    // Validar que los campos no estén vacíos
+    if (!category_name || !category_slug) {
+        alert("El nombre y el slug son requeridos.");
+        return;
+    }
+
+    // Deshabilitar el botón para prevenir múltiples clics
+    $(this).prop("disabled", true);
 
     $.ajax({
         url: categoryAdd,
@@ -159,13 +165,20 @@ $(document).on("click", ".add-btn", function(e) {
         },
         success: function(json) {
             console.log(json);
+            alert("Categoría creada exitosamente."); // Mensaje de éxito
             location.reload(true);
         },
         error: function(xhr, errmsg, err) {
             console.log(`Error en la solicitud: ${xhr.status} - ${xhr.statusText}`);
+            alert(`Error: ${xhr.responseJSON.error || 'Ocurrió un error inesperado.'}`); // Mensaje de error
+        },
+        complete: function() {
+            // Habilitar el botón nuevamente
+            $(this).prop("disabled", false);
         }
     });
 });
+
 
 // Función para generar slugs
 function slugify(text) {
